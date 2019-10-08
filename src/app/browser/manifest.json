@@ -1,0 +1,23 @@
+{
+	"manifest_version": 2,
+	"name": "maximus-addon",
+	"description": "Firefox and Firefox Android Addon for maximus.",
+	"version": "0.1",
+	"homepage_url": "https://github.com/W3G33K/maximus-addon",
+
+	"content_scripts": [
+		{
+			"matches": ["<all_urls>"],
+			"js": [
+				"./js/vendor.bundle.js",
+				"./js/app.bundle.js"
+			]
+		}
+	],
+
+	"applications": {
+		"gecko": {
+			"id": "mail.w3geek@gmail.com"
+		}
+	}
+}
