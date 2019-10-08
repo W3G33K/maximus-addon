@@ -26,5 +26,11 @@ module.exports = {
 				toType: "file"
 			}
 		])
-	]
+	],
+	resolve: {
+		modules: [
+			path.resolve("./src"),
+			path.resolve("./node_modules")
+		]
+	}
 };
