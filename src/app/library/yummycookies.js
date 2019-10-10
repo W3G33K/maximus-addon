@@ -4,41 +4,48 @@ import StringUtil from "app/util/string.util";
 
 /* @exports */
 export class BakedCookie {
-	constructor(name, value) {
+	constructor(name, value, domain, path, expires) {
 		this.__name = name;
 		this.__value = value;
+		this.__domain = (domain || location.hostname);
+		this.__path = (path || "/");
+		this.__expires = (expires || Date.now() + (1000 * 60 * 60 * 24));
 	}
 
 	get name() {
 		return this.__name;
 	}
 
-	set name(name) {
-		throw new UnsupportedOperationError(`Cookie ${this.__name} is read-only and cannot be modified.`);
-	}
-
 	get value() {
 		return this.__value;
 	}
 
-	set value(value) {
-		throw new UnsupportedOperationError(`Cookie ${this.__name} is read-only and cannot be modified.`);
+	get domain() {
+		return this.__domain;
+	}
+
+	get path() {
+		return this.__path;
+	}
+
+	get expires() {
+		return this.__expires;
 	}
 }
 
 export default class YummyCookies {
-	constructor(cookieJar) {
+	constructor(cookieJar, hostname) {
 		let cookies = this.__openCookieJar(cookieJar);
-		this.bakedCookies = this.__bakeCookies(cookies);
+		this.bakedCookies = this.__bakeCookies(cookies, hostname);
 		this.__freezeCookies();
 	}
 
-	__bakeCookies(cookies) {
+	__bakeCookies(cookies, hostname = "") {
 		return cookies.map((cookie) => cookie.split("="))
 			.map((cookieDough) => {
 				let name = cookieDough.shift(),
 					value = cookieDough.shift();
-				return new BakedCookie(name, value);
+				return new BakedCookie(name, value, hostname);
 			});
 	}
 
