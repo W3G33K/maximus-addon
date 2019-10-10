@@ -1,4 +1,6 @@
 /* @imports */
+import "app/browser/config.stylesheet.css";
+
 import $ from "jquery";
 
 /* @main */

@@ -1,0 +1,6 @@
+@import url("./charset.stylesheet.css");
+@import url("~bootstrap/dist/css/bootstrap.min.css");
+
+label:after {
+	content: ": ";
+}

@@ -1,8 +1,9 @@
 /* @imports */
 let path = require("path");
 
-let CopyPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+let CopyPlugin = require("copy-webpack-plugin");
+let ExtractTextPlugin = require("extract-text-webpack-plugin");
+let HtmlWebpackPlugin = require("html-webpack-plugin");
 
 /* @config */
 module.exports = {
@@ -13,13 +14,31 @@ module.exports = {
 	},
 	output: {
 		filename: "js/[name].bundle.js",
+		chunkFilename: "js/[name].bundle.js",
 		path: path.resolve(__dirname, "./addon")
 	},
 	optimization: {
 		splitChunks: {
 			filename: "js/vendor.bundle.js",
-			chunks: "all"
+			chunks: "all",
+			name: "vendors",
+			cacheGroups: {
+				vendors: {
+					test: /[\\/]node_modules[\\/].*js/
+				}
+			}
 		}
+	},
+	module: {
+		rules: [
+			{
+				test: /\.css$/i,
+				use: ExtractTextPlugin.extract({
+					fallback: "style-loader",
+					use: "css-loader"
+				})
+			}
+		]
 	},
 	plugins: [
 		new CopyPlugin([
@@ -29,6 +48,10 @@ module.exports = {
 				toType: "file"
 			}
 		]),
+
+		new ExtractTextPlugin(
+			"css/app.bundle.css"
+		),
 
 		new HtmlWebpackPlugin({
 			filename: "config.html",
