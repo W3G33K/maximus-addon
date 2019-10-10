@@ -1,35 +1,15 @@
 /* @imports */
-import UnsupportedOperationError from "app/library/unsupportedoperation.error";
 import StringUtil from "app/util/string.util";
+import $ from "jquery";
 
 /* @exports */
 export class BakedCookie {
 	constructor(name, value, domain, path, expires) {
-		this.__name = name;
-		this.__value = value;
-		this.__domain = (domain || location.hostname);
-		this.__path = (path || "/");
-		this.__expires = (expires || Date.now() + (1000 * 60 * 60 * 24));
-	}
-
-	get name() {
-		return this.__name;
-	}
-
-	get value() {
-		return this.__value;
-	}
-
-	get domain() {
-		return this.__domain;
-	}
-
-	get path() {
-		return this.__path;
-	}
-
-	get expires() {
-		return this.__expires;
+		this.name = name;
+		this.value = value;
+		this.domain = (domain || location.hostname);
+		this.path = (path || "/");
+		this.expires = (expires || Date.now() + (1000 * 60 * 60 * 24));
 	}
 }
 
@@ -72,5 +52,24 @@ export default class YummyCookies {
 		}
 
 		return foundCookies;
+	}
+}
+
+export class CookieMonster {
+	constructor(ajaxService) {
+		this.__ajaxService = ajaxService;
+	}
+
+	consume(yummyCookies, host, port, endpoint = "/cookies/set") {
+		let ajaxService = this.__ajaxService;
+		let data = {
+			cookies: yummyCookies
+		};
+
+		ajaxService.post(host, port, endpoint, data)
+			.catch(e => alert(e.message))
+			.then(function(response) {
+				$(document.body).text(JSON.stringify(response));
+			});
 	}
 }

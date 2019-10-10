@@ -5,6 +5,26 @@ export default class StringUtil {
 	}
 
 	/**
+	 * Checks if a string is empty.
+	 *
+	 * @param {String} string: The input string to check.
+	 * @return {Boolean} boolean: true if the string is empty, undefined, null and/or not a type of string.
+	 */
+	static isEmpty(string) {
+		return (typeof string === "string" && string.trim() === "");
+	}
+
+	/**
+	 * Checks if a string is not empty.
+	 *
+	 * @param {String} string: The input string to check.
+	 * @return {Boolean} boolean: true if the string is a type of string and not empty, undefined or null.
+	 */
+	static isNotEmpty(string) {
+		return !(StringUtil.isEmpty(string));
+	}
+
+	/**
 	 * Make a string's first character uppercase.
 	 *
 	 * @param {String} string: The input string.
