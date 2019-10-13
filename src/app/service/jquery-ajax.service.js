@@ -17,8 +17,8 @@ export default class JqueryAjaxService {
 			));
 	}
 
-	post(host, port, endpoint, data) {
-		let url = `http://${host}`;
+	post(protocol, host, port, endpoint, data) {
+		let url = `${protocol}://${host}`;
 		if (StringUtil.isNotEmpty(port)) {
 			url = `${url}:${port}`;
 		}

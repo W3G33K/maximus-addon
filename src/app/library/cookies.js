@@ -13,7 +13,7 @@ export class BakedCookie {
 	}
 }
 
-export default class YummyCookies {
+export default class BakeCookies {
 	constructor(cookieJar, hostname) {
 		let cookies = this.__openCookieJar(cookieJar);
 		this.bakedCookies = this.__bakeCookies(cookies, hostname);
@@ -60,13 +60,13 @@ export class CookieMonster {
 		this.__ajaxService = ajaxService;
 	}
 
-	consume(yummyCookies, host, port, endpoint = "/cookies/set") {
+	consume(yummyCookies, protocol, host, port, endpoint = "/cookies/set") {
 		let ajaxService = this.__ajaxService;
 		let data = {
 			cookies: yummyCookies
 		};
 
-		ajaxService.post(host, port, endpoint, data)
+		ajaxService.post(protocol, host, port, endpoint, data)
 			.catch(e => alert(e.message))
 			.then(function(response) {
 				$(document.body).text(JSON.stringify(response));
