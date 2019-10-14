@@ -5,6 +5,12 @@
 	"version": "0.1",
 	"homepage_url": "https://github.com/W3G33K/maximus-addon",
 
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
+	"permissions": [
+		"<all_urls>",
+		"storage"
+	],
+
 	"background": {
 		"scripts": [
 			"./js/background.bundle.js"
@@ -24,11 +30,6 @@
 	"options_ui": {
 		"page": "config.html"
 	},
-
-	"permissions": [
-		"<all_urls>",
-		"storage"
-	],
 
 	"applications": {
 		"gecko": {

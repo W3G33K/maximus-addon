@@ -54,6 +54,11 @@ module.exports = {
 						removeComments: true
 					}
 				}
+			},
+			{
+				test: /\.js$/i,
+				exclude: /node_modules/i,
+				loader: "babel-loader"
 			}
 		]
 	},
@@ -72,7 +77,6 @@ module.exports = {
 
 		new HtmlWebpackPlugin({
 			filename: "config.html",
-			title: "Maximus Addon Configuration",
 			template: path.resolve(__dirname, "./src/app/view/config.view.html"),
 			excludeChunks: ["app", "background"]
 		}),
