@@ -1,7 +1,13 @@
 /* @imports */
 import "app/browser/config.stylesheet.css";
 
+import ServerConfigComponent from "app/component/server-config.component";
+
 import $ from "jquery";
+import angular from "angular";
+
+angular.module("maximus-addon-config", [])
+	.component("serverConfig", ServerConfigComponent);
 
 /* @main */
 let protocol = $("select[name='protocol']"),

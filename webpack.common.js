@@ -1,9 +1,13 @@
 /* @imports */
 let path = require("path");
+let webpack = require("webpack");
 
 let CopyPlugin = require("copy-webpack-plugin");
 let ExtractTextPlugin = require("extract-text-webpack-plugin");
 let HtmlWebpackPlugin = require("html-webpack-plugin");
+
+/* @globals */
+let ProvidePlugin = webpack.ProvidePlugin;
 
 /* @config */
 module.exports = {
@@ -37,6 +41,19 @@ module.exports = {
 					fallback: "style-loader",
 					use: "css-loader"
 				})
+			},
+			{
+				test: /\.html$/i,
+				use: {
+					loader: "html-loader",
+					options: {
+						collapseWhitespace: true,
+						conservativeCollapse: false,
+						minimize: true,
+						removeAttributeQuotes: false,
+						removeComments: true
+					}
+				}
 			}
 		]
 	},
@@ -58,6 +75,10 @@ module.exports = {
 			title: "Maximus Addon Configuration",
 			template: path.resolve(__dirname, "./src/app/view/config.view.html"),
 			excludeChunks: ["app", "background"]
+		}),
+
+		new ProvidePlugin({
+			"window.jQuery": "jquery"
 		})
 	],
 	resolve: {
