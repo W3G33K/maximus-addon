@@ -32,12 +32,18 @@
 				<li data-ng-show="serverConfig.port.$error.max"><small>Port must be less than or equal to {{serverConfig.port.$$attr.max}} but greater than {{serverConfig.port.$$attr.min}} to be valid.</small></li>
 			</ul>
 		</div>
-		<div class="text-right">
-			<small class="mr-1">{{statusText}}</small>
-			<button id="test-server-config" class="btn btn-primary" data-ng-click="$ctrl.testConfig()"
-					data-ng-disabled="serverConfig.$pristine || serverConfig.$invalid">Test</button>
-			<button type="submit" id="update-server-config" class="btn btn-success"
-					data-ng-disabled="isHealthy === false || (serverConfig.$pristine || serverConfig.$invalid)">Update</button>
+		<div class="row">
+			<div class="col-sm">
+				<button type="button" id="export-server-config" class="btn btn-danger" data-ng-click="$ctrl.exportConfig()"
+						data-ng-disabled="$ctrl.isExportable === false">Export</button>
+			</div>
+			<div class="col-sm text-right">
+				<small class="mr-1">{{statusText}}</small>
+				<button type="button" id="test-server-config" class="btn btn-primary" data-ng-click="$ctrl.testConfig()"
+						data-ng-disabled="serverConfig.$pristine || serverConfig.$invalid">Test</button>
+				<button type="submit" id="update-server-config" class="btn btn-success"
+						data-ng-disabled="isHealthy === false || (serverConfig.$pristine || serverConfig.$invalid)">Update</button>
+			</div>
 		</div>
 	</fieldset>
 </form>

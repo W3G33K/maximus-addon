@@ -6,19 +6,21 @@ const STATUS_TEXT_CONFIG_SAVED = "Server Config Saved";
 const STATUS_TEXT_CONNECTION_UNTESTED = "...";
 
 @NgController("ServerConfigController")
-@NgInject("$http", "$q", "$scope")
+@NgInject("$http", "$q", "$scope", "fileService")
 export default class ServerConfigController {
-	constructor($http, $q, $scope) {
+	constructor($http, $q, $scope, fileService) {
 		this.$http = $http;
 		this.$q = $q;
-		this.__$scope = $scope;
+		this.$scope = $scope;
+		this.fileService = fileService;
+		this.isExportable = false;
 
 		this.loadConfig();
 		this.__watchConfig();
 	}
 
 	$onInit() {
-		let $scope = this.__$scope;
+		let $scope = this.$scope;
 		$scope.protocol = null;
 		$scope.host = null;
 		$scope.port = null;
@@ -29,31 +31,42 @@ export default class ServerConfigController {
 	}
 
 	__watchConfig() {
-		let $scope = this.__$scope;
+		let $scope = this.$scope;
 		$scope.$watchGroup(["protocol", "host", "port"], function() {
 			$scope.isHealthy = false;
 			$scope.statusText = STATUS_TEXT_CONNECTION_UNTESTED;
 		});
 	}
 
+	exportConfig() {
+		let fileService = this.fileService;
+		browser.storage.local.get(["protocol", "host", "port"]).then(function(config) {
+			fileService.download(config, "serverConfig.json", "application/json");
+		});
+	}
+
 	loadConfig() {
-		let $q = this.$q,
-			$scope = this.__$scope;
+		let $ctrl = this,
+			$q = this.$q,
+			$scope = this.$scope;
 		$q(function(resolve) {
 			browser.storage.local.get(["protocol", "host", "port"]).then(resolve);
-		}).then(config => {
+		}).then(function(config) {
 			console.debug("Loading Server Configuration",
 				config.protocol, config.host, config.port);
 			$scope.protocol = (typeof config.protocol === "string") ? config.protocol : null;
 			$scope.host = (typeof config.host === "string") ? config.host : null;
 			$scope.port = (typeof config.port === "number") ? config.port : null;
+			if ($scope.protocol !== null && $scope.host !== null && $scope.port !== null) {
+				$ctrl.isExportable = true;
+			}
 		});
 	}
 
 	testConfig() {
 		let $http = this.$http,
 			$q = this.$q,
-			$scope = this.__$scope;
+			$scope = this.$scope;
 
 		let deferred = $q.defer();
 		let protocol = $scope.protocol,
@@ -82,8 +95,9 @@ export default class ServerConfigController {
 	}
 
 	saveConfig() {
-		let $q = this.$q,
-			$scope = this.__$scope;
+		let $ctrl = this,
+			$q = this.$q,
+			$scope = this.$scope;
 		let protocol = $scope.protocol,
 			host = $scope.host,
 			port = $scope.port;
@@ -98,6 +112,7 @@ export default class ServerConfigController {
 		deferred.promise
 			.then(function() {
 				$scope.statusText = STATUS_TEXT_CONFIG_SAVED;
+				$ctrl.isExportable = true;
 
 				alert("Server Configuration has been updated.");
 			})
