@@ -1,37 +1,43 @@
-<form id="serverConfig" name="serverConfig" novalidate="novalidate" data-ng-submit="serverConfig.$valid && $ctrl.save()">
+<form id="serverConfig" name="serverConfig" novalidate="novalidate"
+	  data-ng-submit="(isHealthy && serverConfig.$valid) && $ctrl.saveConfig()">
 	<fieldset>
 		<legend>Server Configuration</legend>
 		<div class="form-group">
 			<label for="protocol">Protocol</label>
-			<select id="protocol" name="protocol" class="form-control" required="required" data-ng-model="$ctrl.protocol">
-				<option value="">Make Selection</option>
+			<select id="protocol" name="protocol" class="form-control" required="required" data-ng-model="protocol">
+				<option disabled="disabled" value="">Make Selection</option>
 				<option value="http">http</option>
 				<option value="https">https</option>
 			</select>
-			<ul ng-if="serverConfig.protocol.$dirty">
-				<li ng-show="serverConfig.protocol.$error.required"><small>Protocol is required.</small></li>
+			<ul data-ng-if="serverConfig.protocol.$dirty">
+				<li data-ng-show="serverConfig.protocol.$error.required"><small>Protocol is required.</small></li>
 			</ul>
 		</div>
 		<div class="form-group">
 			<label for="host">Host</label>
 			<input type="text" id="host" name="host" class="form-control" placeholder="127.0.0.1"
-				   required="required" data-ng-model="$ctrl.host"/>
-			<ul ng-if="serverConfig.host.$dirty">
-				<li ng-show="serverConfig.host.$error.required"><small>Host is required.</small></li>
+				   required="required" data-ng-model="host"/>
+			<ul data-ng-if="serverConfig.host.$dirty">
+				<li data-ng-show="serverConfig.host.$error.required"><small>Host is required.</small></li>
 			</ul>
 		</div>
 		<div class="form-group">
 			<label for="port">Port</label>
 			<input type="number" id="port" name="port" class="form-control" placeholder="8888"
-				   min="0" max="65535" required="required" data-ng-model="$ctrl.port"/>
-			<ul ng-if="serverConfig.port.$dirty">
-				<li ng-show="serverConfig.port.$error.required"><small>Port is required.</small></li>
-				<li ng-show="serverConfig.port.$error.number"><small>Port is invalid. Port must be a valid number between {{serverConfig.port.$$attr.min}} to {{serverConfig.port.$$attr.max}}.</small></li>
-				<li ng-show="serverConfig.port.$error.min"><small>Port must be greater than {{serverConfig.port.$$attr.min}} but less than {{serverConfig.port.$$attr.max}} to be valid.</small></li>
-				<li ng-show="serverConfig.port.$error.max"><small>Port must be less than or equal to {{serverConfig.port.$$attr.max}} but greater than {{serverConfig.port.$$attr.min}} to be valid.</small></li>
+				   min="0" max="65535" required="required" data-ng-model="port"/>
+			<ul data-ng-if="serverConfig.port.$dirty">
+				<li data-ng-show="serverConfig.port.$error.required"><small>Port is required.</small></li>
+				<li data-ng-show="serverConfig.port.$error.number"><small>Port is invalid. Port must be a valid number between {{serverConfig.port.$$attr.min}} to {{serverConfig.port.$$attr.max}}.</small></li>
+				<li data-ng-show="serverConfig.port.$error.min"><small>Port must be greater than {{serverConfig.port.$$attr.min}} but less than {{serverConfig.port.$$attr.max}} to be valid.</small></li>
+				<li data-ng-show="serverConfig.port.$error.max"><small>Port must be less than or equal to {{serverConfig.port.$$attr.max}} but greater than {{serverConfig.port.$$attr.min}} to be valid.</small></li>
 			</ul>
 		</div>
-		<button type="submit" id="update-server-config" class="btn btn-primary"
-				data-ng-disabled="serverConfig.$pristine || serverConfig.$invalid">Update</button>
+		<div class="text-right">
+			<small class="mr-1">{{statusText}}</small>
+			<button id="test-server-config" class="btn btn-primary" data-ng-click="$ctrl.testConfig()"
+					data-ng-disabled="serverConfig.$pristine || serverConfig.$invalid">Test</button>
+			<button type="submit" id="update-server-config" class="btn btn-success"
+					data-ng-disabled="isHealthy === false || (serverConfig.$pristine || serverConfig.$invalid)">Update</button>
+		</div>
 	</fieldset>
 </form>
