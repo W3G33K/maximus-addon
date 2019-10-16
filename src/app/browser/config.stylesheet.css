@@ -1,10 +1,14 @@
 @import url("./charset.stylesheet.css");
 @import url("~bootstrap/dist/css/bootstrap.min.css");
 
-body {
-	margin-bottom: 0.5rem;
-}
-
 label:after {
 	content: ": ";
+}
+
+.btn-file {
+	margin: 0;
+}
+
+.btn-file:after {
+	content: none;
 }

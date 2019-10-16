@@ -24,6 +24,7 @@ export default class ServerConfigController {
 		$scope.protocol = null;
 		$scope.host = null;
 		$scope.port = null;
+		$scope.importServerConfig = null;
 		$scope.isHealthy = false;
 		$scope.statusText = STATUS_TEXT_CONNECTION_UNTESTED;
 
@@ -36,6 +37,10 @@ export default class ServerConfigController {
 			$scope.isHealthy = false;
 			$scope.statusText = STATUS_TEXT_CONNECTION_UNTESTED;
 		});
+	}
+
+	importConfig() {
+		throw new Error("UnsupportedOperationError Method Not Implemented");
 	}
 
 	exportConfig() {

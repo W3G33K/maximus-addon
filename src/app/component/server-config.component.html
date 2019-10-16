@@ -13,7 +13,9 @@
 					<option value="https">https</option>
 				</select>
 				<div class="alert alert-danger mt-2" data-ng-if="serverConfig.protocol.$dirty && serverConfig.protocol.$invalid">
-					<small data-ng-show="serverConfig.protocol.$error.required">Protocol is required.</small>
+					<small data-ng-show="serverConfig.protocol.$error.required">
+						Protocol is required.
+					</small>
 				</div>
 			</div>
 			<div class="form-group">
@@ -21,7 +23,9 @@
 				<input type="text" id="host" name="host" class="form-control" placeholder="127.0.0.1"
 					   required="required" data-ng-model="host"/>
 				<div class="alert alert-danger mt-2" data-ng-if="serverConfig.host.$dirty && serverConfig.host.$invalid">
-					<small data-ng-show="serverConfig.host.$error.required">Host is required.</small>
+					<small data-ng-show="serverConfig.host.$error.required">
+						Host is required.
+					</small>
 				</div>
 			</div>
 			<div class="form-group">
@@ -29,16 +33,28 @@
 				<input type="number" id="port" name="port" class="form-control" placeholder="8888"
 					   min="0" max="65535" required="required" data-ng-model="port"/>
 				<div class="alert alert-danger mt-2" data-ng-if="serverConfig.port.$dirty && serverConfig.port.$invalid">
-					<small data-ng-show="serverConfig.port.$error.required">Port is required.</small>
-					<small data-ng-show="serverConfig.port.$error.number">Port is invalid. Port must be a valid number between {{serverConfig.port.$$attr.min}} to {{serverConfig.port.$$attr.max}}.</small>
-					<small data-ng-show="serverConfig.port.$error.min">Port must be greater than {{serverConfig.port.$$attr.min}} but less than {{serverConfig.port.$$attr.max}} to be valid.</small>
-					<small data-ng-show="serverConfig.port.$error.max">Port must be less than or equal to {{serverConfig.port.$$attr.max}} but greater than {{serverConfig.port.$$attr.min}} to be valid.</small>
+					<small data-ng-show="serverConfig.port.$error.required">
+						Port is required.
+					</small>
+					<small data-ng-show="serverConfig.port.$error.number">
+						Port is invalid. Port must be a valid number between {{serverConfig.port.$$attr.min}} to {{serverConfig.port.$$attr.max}}.
+					</small>
+					<small data-ng-show="serverConfig.port.$error.min">
+						Port must be greater than {{serverConfig.port.$$attr.min}} but less than {{serverConfig.port.$$attr.max}} to be valid.
+					</small>
+					<small data-ng-show="serverConfig.port.$error.max">
+						Port must be less than or equal to {{serverConfig.port.$$attr.max}} but greater than {{serverConfig.port.$$attr.min}} to be valid.
+					</small>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm">
 					<button type="button" id="export-server-config" class="btn btn-danger" data-ng-click="$ctrl.exportConfig()"
 							data-ng-disabled="$ctrl.isExportable === false">Export</button>
+					<label for="importServerConfig" class="btn btn-success btn-file">
+						Import... <input type="file" accept="application/json" id="importServerConfig" name="importServerConfig"
+										 class="d-none" data-ng-model="importServerConfig" data-import-file/>
+					</label>
 				</div>
 				<div class="col-sm text-right">
 					<small class="mr-1">{{statusText}}</small>
