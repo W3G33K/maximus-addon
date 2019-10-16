@@ -1,49 +1,53 @@
-<form id="serverConfig" name="serverConfig" novalidate="novalidate"
-	  data-ng-submit="(isHealthy && serverConfig.$valid) && $ctrl.saveConfig()">
-	<fieldset>
-		<legend>Server Configuration</legend>
-		<div class="form-group">
-			<label for="protocol">Protocol</label>
-			<select id="protocol" name="protocol" class="form-control" required="required" data-ng-model="protocol">
-				<option disabled="disabled" value="">Make Selection</option>
-				<option value="http">http</option>
-				<option value="https">https</option>
-			</select>
-			<ul data-ng-if="serverConfig.protocol.$dirty">
-				<li data-ng-show="serverConfig.protocol.$error.required"><small>Protocol is required.</small></li>
-			</ul>
-		</div>
-		<div class="form-group">
-			<label for="host">Host</label>
-			<input type="text" id="host" name="host" class="form-control" placeholder="127.0.0.1"
-				   required="required" data-ng-model="host"/>
-			<ul data-ng-if="serverConfig.host.$dirty">
-				<li data-ng-show="serverConfig.host.$error.required"><small>Host is required.</small></li>
-			</ul>
-		</div>
-		<div class="form-group">
-			<label for="port">Port</label>
-			<input type="number" id="port" name="port" class="form-control" placeholder="8888"
-				   min="0" max="65535" required="required" data-ng-model="port"/>
-			<ul data-ng-if="serverConfig.port.$dirty">
-				<li data-ng-show="serverConfig.port.$error.required"><small>Port is required.</small></li>
-				<li data-ng-show="serverConfig.port.$error.number"><small>Port is invalid. Port must be a valid number between {{serverConfig.port.$$attr.min}} to {{serverConfig.port.$$attr.max}}.</small></li>
-				<li data-ng-show="serverConfig.port.$error.min"><small>Port must be greater than {{serverConfig.port.$$attr.min}} but less than {{serverConfig.port.$$attr.max}} to be valid.</small></li>
-				<li data-ng-show="serverConfig.port.$error.max"><small>Port must be less than or equal to {{serverConfig.port.$$attr.max}} but greater than {{serverConfig.port.$$attr.min}} to be valid.</small></li>
-			</ul>
-		</div>
-		<div class="row">
-			<div class="col-sm">
-				<button type="button" id="export-server-config" class="btn btn-danger" data-ng-click="$ctrl.exportConfig()"
-						data-ng-disabled="$ctrl.isExportable === false">Export</button>
+<div class="card mt-2">
+	<header class="card-header">
+		Server Configuration
+	</header>
+	<section class="card-body">
+		<form id="serverConfig" name="serverConfig" novalidate="novalidate"
+			  data-ng-submit="(isHealthy && serverConfig.$valid) && $ctrl.saveConfig()">
+			<div class="form-group">
+				<label for="protocol">Protocol</label>
+				<select id="protocol" name="protocol" class="form-control" required="required" data-ng-model="protocol">
+					<option disabled="disabled" value="">Make Selection</option>
+					<option value="http">http</option>
+					<option value="https">https</option>
+				</select>
+				<div class="alert alert-danger mt-2" data-ng-if="serverConfig.protocol.$dirty && serverConfig.protocol.$invalid">
+					<small data-ng-show="serverConfig.protocol.$error.required">Protocol is required.</small>
+				</div>
 			</div>
-			<div class="col-sm text-right">
-				<small class="mr-1">{{statusText}}</small>
-				<button type="button" id="test-server-config" class="btn btn-primary" data-ng-click="$ctrl.testConfig()"
-						data-ng-disabled="serverConfig.$pristine || serverConfig.$invalid">Test</button>
-				<button type="submit" id="update-server-config" class="btn btn-success"
-						data-ng-disabled="isHealthy === false || (serverConfig.$pristine || serverConfig.$invalid)">Update</button>
+			<div class="form-group">
+				<label for="host">Host</label>
+				<input type="text" id="host" name="host" class="form-control" placeholder="127.0.0.1"
+					   required="required" data-ng-model="host"/>
+				<div class="alert alert-danger mt-2" data-ng-if="serverConfig.host.$dirty && serverConfig.host.$invalid">
+					<small data-ng-show="serverConfig.host.$error.required">Host is required.</small>
+				</div>
 			</div>
-		</div>
-	</fieldset>
-</form>
+			<div class="form-group">
+				<label for="port">Port</label>
+				<input type="number" id="port" name="port" class="form-control" placeholder="8888"
+					   min="0" max="65535" required="required" data-ng-model="port"/>
+				<div class="alert alert-danger mt-2" data-ng-if="serverConfig.port.$dirty && serverConfig.port.$invalid">
+					<small data-ng-show="serverConfig.port.$error.required">Port is required.</small>
+					<small data-ng-show="serverConfig.port.$error.number">Port is invalid. Port must be a valid number between {{serverConfig.port.$$attr.min}} to {{serverConfig.port.$$attr.max}}.</small>
+					<small data-ng-show="serverConfig.port.$error.min">Port must be greater than {{serverConfig.port.$$attr.min}} but less than {{serverConfig.port.$$attr.max}} to be valid.</small>
+					<small data-ng-show="serverConfig.port.$error.max">Port must be less than or equal to {{serverConfig.port.$$attr.max}} but greater than {{serverConfig.port.$$attr.min}} to be valid.</small>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm">
+					<button type="button" id="export-server-config" class="btn btn-danger" data-ng-click="$ctrl.exportConfig()"
+							data-ng-disabled="$ctrl.isExportable === false">Export</button>
+				</div>
+				<div class="col-sm text-right">
+					<small class="mr-1">{{statusText}}</small>
+					<button type="button" id="test-server-config" class="btn btn-primary" data-ng-click="$ctrl.testConfig()"
+							data-ng-disabled="serverConfig.$pristine || serverConfig.$invalid">Test</button>
+					<button type="submit" id="update-server-config" class="btn btn-success"
+							data-ng-disabled="isHealthy === false || (serverConfig.$pristine || serverConfig.$invalid)">Update</button>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>
