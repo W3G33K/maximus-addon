@@ -39,8 +39,21 @@ export default class ServerConfigController {
 		});
 	}
 
-	importConfig() {
-		throw new Error("UnsupportedOperationError Method Not Implemented");
+	importConfig(serverConfig) {
+		let $scope = this.$scope,
+			fileService = this.fileService;
+		let importServerConfigFile = $scope.importServerConfig[0];
+		fileService.readJson(importServerConfigFile)
+			.then(function(jsonData) {
+				$scope.protocol = jsonData.protocol;
+				$scope.host = jsonData.host;
+				$scope.port = jsonData.port;
+				serverConfig.$setDirty();
+			})
+			.catch(function(error) {
+				console.error("Server Config could not be parsed. Reason:", error);
+				alert("Server Configuration could not be parsed. Please double check the file type to ensure it is JSON.");
+			})
 	}
 
 	exportConfig() {

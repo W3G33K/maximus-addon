@@ -53,7 +53,8 @@
 							data-ng-disabled="$ctrl.isExportable === false">Export</button>
 					<label for="importServerConfig" class="btn btn-success btn-file">
 						Import... <input type="file" accept="application/json" id="importServerConfig" name="importServerConfig"
-										 class="d-none" data-ng-model="importServerConfig" data-import-file/>
+										 class="d-none" data-ng-model="importServerConfig"
+										 data-import-file data-import-file-action="$ctrl.importConfig(serverConfig)"/>
 					</label>
 				</div>
 				<div class="col-sm text-right">
